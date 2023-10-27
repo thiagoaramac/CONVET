@@ -14,6 +14,7 @@ import os
 # Lê o arquivo CSV com as disciplinas deste simulado -------------------------------------------------------------------
 disciplinas = polars.scan_csv('disciplinas.csv').collect()
 checklist_options, checklist_values = rotinasAuxiliares.criar_checkboxes(disciplinas)
+
 # ----------------------------------------------------------------------------------------------------------------------
 app = dash.Dash(__name__, title="Ranking Simulado CONVET")
 
@@ -23,6 +24,7 @@ app.layout = html.Div([
 
     html.Label("Matérias deste simulado:", style={'font-size': '18px', 'font-weight': 'bold'}),
 
+    # Cria o Checklist com todas as matérias selecionadas
     dcc.Checklist(
         id='checklist',
         style={'font-size': '16px'},
@@ -39,7 +41,11 @@ app.layout = html.Div([
         html.Li("Prova Discursiva", style={'margin': '1px'}),
     ]),
 
-    html.Button("Selecione os arquivos .CSV", id='btn_csv'),
+    dcc.Upload(
+        id='btn_csv',
+        children = html.Button("Selecione os arquivos .CSV"),
+        multiple = True
+    ),
 
     html.Div(id='file-list'),
 
@@ -47,5 +53,4 @@ app.layout = html.Div([
 
 
 if __name__ == '__main__':
-    # app.run(debug = True)
-    app.run_server(host='177.133.31.197', port=8050)
+    app.run(debug = True)

@@ -3,14 +3,28 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
-        <entry key="\input-files\Notas-SIM-POSTE AQUI SUA DISCURSIVA!!!-6486.csv">
+        <entry key="C:\Users\thiag\Downloads\Notas-SIM-POSTE AQUI SUA DISCURSIVA!!!-6486.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
             </Attribute>
           </value>
         </entry>
-        <entry key="\materias.csv">
+        <entry key="C:\Users\thiag\Downloads\SIM-POSTE AQUI SEU GABARITO - CONHECIMENTOS BÁSICOS-notas.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="C:\Users\thiag\Downloads\SIM-POSTE AQUI SEU GABARITO - CONHECIMENTOS ESPECÍFICOS-notas.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\disciplinas.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
