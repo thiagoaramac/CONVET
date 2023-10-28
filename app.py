@@ -89,7 +89,7 @@ app.layout = html.Div([
     ),
     html.Button('Adicionar Disciplina', id='add-row-button'),
     html.Button("Salvar", id="btn_salvar_materias"),
-    dcc.Download(id="salvar-materias"),
+
 
     # Salta uma linha --------------------------------------------------------------------------------------------------
     html.Br(),
@@ -218,14 +218,14 @@ def save_table_data(n_clicks, table_data):
 
 # Atualizar a página após ler CSV --------------------------------------------------------------------------------------
 @callback(
-          Output('output-data-upload', 'children'),
+          [Output('output-data-upload', 'children'), Output("download", "data")],
           Input('upload-data', 'contents'),
           State('upload-data', 'filename'),
           )
 def update_output(contents, filename):
     # Limpa a pasta input-files ----------------------------------------------------------------------------------------
-    input_files_folder = os.getcwd() + '\\input-files\\'
-    output_files_folder = os.getcwd() + '\\output-files\\'
+    input_files_folder = os.getcwd() + '/input-files/'
+    output_files_folder = os.getcwd() + '/output-files/'
     rotinasAuxiliares.limpar_diretorio(input_files_folder)
     contador = 0
 
@@ -234,7 +234,7 @@ def update_output(contents, filename):
         try:
             ranking.compilar_notas()
             ranking.rankear_alunos()
-            arquivo = os.getcwd() + '\\input-files\\CSV_Ranking.csv'
+            arquivo = input_files_folder + 'CSV_Ranking.csv'
         except:
             pass
         return children

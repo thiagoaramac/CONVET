@@ -3,7 +3,7 @@ import os
 
 
 def compilar_notas():
-    input_files_path = os.getcwd() + '\\input-files\\'
+    input_files_path = os.getcwd() + '/input-files/'
     files = os.listdir(input_files_path)
 
     input_basico = [file for file in files if "SIC" in file][0]
@@ -11,7 +11,7 @@ def compilar_notas():
     input_discursiva = [file for file in files if "RSI" in file][0]
 
     # Gera o CSV_Basico ----------------------------------------------------------------------------------------------------
-    df_basico = pd.read_csv(os.getcwd() + '\\input-files\\' + input_basico)
+    df_basico = pd.read_csv(input_files_path + input_basico)
     df_basico.pop('Estado')
     df_basico.pop('Iniciado em')
     df_basico.pop('Completo')
@@ -27,7 +27,7 @@ def compilar_notas():
     df_basico.reset_index(drop=True, inplace=True)
 
     # Lê as matérias e cria colunas com as somas de cada matéria ---
-    df_materias = pd.read_csv(os.getcwd() + '\\materias.csv')
+    df_materias = pd.read_csv(input_files_path + 'materias.csv')
     for index, row in df_materias.iterrows():
         materia_atual = row['C1']
         if not pd.isna(materia_atual):
@@ -43,7 +43,7 @@ def compilar_notas():
 
 
     # Gera o CSV_Especifico ------------------------------------------------------------------------------------------------
-    df_especifico = pd.read_csv(os.getcwd() + '\\input-files\\' + input_especifico)
+    df_especifico = pd.read_csv(input_files_path + input_especifico)
     df_especifico.pop('Estado')
     df_especifico.pop('Iniciado em')
     df_especifico.pop('Completo')
@@ -65,7 +65,7 @@ def compilar_notas():
 
 
     # Gera o CSV_Discursiva ------------------------------------------------------------------------------------------------
-    df_discursiva = pd.read_csv(os.getcwd() + '\\input-files\\' + input_discursiva)
+    df_discursiva = pd.read_csv(input_files_path + input_discursiva)
     df_discursiva.pop('Identificador')
     df_discursiva.pop('Status')
     df_discursiva.pop('Nota máxima')
@@ -94,19 +94,19 @@ def compilar_notas():
     df_nota_final = df_nota_final.fillna(0)
     df_nota_final = df_nota_final.sort_values(by='Aluno', ascending=True)
     df_nota_final.reset_index(drop=True, inplace=True)
-    df_nota_final.to_csv(os.getcwd() + '\\input-files\\CSV_NotasFinais.csv')
+    df_nota_final.to_csv(input_files_path + 'CSV_NotasFinais.csv')
 
     # Limpa a memória RAM e mantém só o df_nota_final
     del df_basico, df_especifico, df_discursiva, df_nota_final
 
 
 def rankear_alunos():
-    input_files_path = os.getcwd() + '\\input-files\\'
+    input_files_path = os.getcwd() + '/input-files/'
     files = os.listdir(input_files_path)
 
     input_ranking = [file for file in files if "CSV_NotasFinais" in file][0]
 
-    df_rank = pd.read_csv(os.getcwd() + '\\input-files\\' + input_ranking)
+    df_rank = pd.read_csv(input_files_path + input_ranking)
 
     notas = df_rank.columns[2:].tolist()
 
@@ -118,5 +118,5 @@ def rankear_alunos():
     df_rank = df_rank.sort_values(by = 'Ranking Nota Final', ascending = True)
     df_rank.pop('Unnamed: 0')
     df_rank.reset_index(drop = True, inplace = True)
-    df_rank.to_csv(os.getcwd() + '\\input-files\\CSV_Ranking.csv')
+    df_rank.to_csv(input_files_path + 'CSV_Ranking.csv')
 
