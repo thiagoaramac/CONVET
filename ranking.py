@@ -7,7 +7,7 @@ files = os.listdir(input_files_path)
 
 input_basico = [file for file in files if "SIC" in file][0]
 input_especifico = [file for file in files if "FIC" in file][0]
-input_discursiva = [file for file in files if "RSIV" in file][0]
+input_discursiva = [file for file in files if "RSI" in file][0]
 
 # Gera o CSV_Basico ----------------------------------------------------------------------------------------------------
 df_basico = pd.read_csv(os.getcwd() + '\\input-files\\' + input_basico)
@@ -35,8 +35,10 @@ for index, row in df_materias.iterrows():
         df_basico[materia_atual] = df_basico.iloc[:, coluna_inicial:coluna_final].sum(axis=1).round(2)
 df_basico = df_basico.drop(df_basico.columns[1:51], axis=1)
 # --------------------------------------------------------------
-
-df_basico.to_csv(os.getcwd() + '\\input-files\\CSV_Basico.csv')
+# Cria a soma total da prova objetiva --------------------------
+df_basico['Prova Objetiva Geral'] = df_basico.iloc[:, 1:].sum(axis=1).round(2)
+# --------------------------------------------------------------
+# df_basico.to_csv(os.getcwd() + '\\input-files\\CSV_Basico.csv')
 
 
 # Gera o CSV_Especifico ------------------------------------------------------------------------------------------------
@@ -53,14 +55,12 @@ df_especifico = df_especifico.replace('-', '0,00', regex=True)
 df_especifico = df_especifico.replace(',', '.', regex=True)
 df_especifico = df_especifico.apply(pd.to_numeric, errors='ignore')
 df_especifico = df_especifico[['Aluno'] + [col for col in df_especifico.columns if col != 'Aluno']]
-
 # Cria a coluna com a soma de todas as questões ----------
-df_especifico['Específicas'] = df_especifico.iloc[:, 1:].sum(axis=1)
+df_especifico['Prova Objetiva Específica'] = df_especifico.iloc[:, 1:].sum(axis=1)
 df_especifico = df_especifico.iloc[:, [0, -1]]
 # --------------------------------------------------------
-
 df_especifico.reset_index(drop=True, inplace=True)
-df_especifico.to_csv(os.getcwd() + '\\input-files\\CSV_Especifico.csv')
+# df_especifico.to_csv(os.getcwd() + '\\input-files\\CSV_Especifico.csv')
 
 
 # Gera o CSV_Discursiva ------------------------------------------------------------------------------------------------
@@ -79,10 +79,21 @@ df_discursiva = df_discursiva.replace(',', '.', regex=True)
 df_discursiva = df_discursiva.apply(pd.to_numeric, errors='ignore')
 df_discursiva = df_discursiva.loc[df_discursiva.groupby('Aluno')['Nota'].idxmax()]
 df_discursiva.reset_index(drop=True, inplace=True)
-df_discursiva.to_csv(os.getcwd() + '\\input-files\\CSV_Discursiva.csv')
+df_discursiva.rename(columns={'Nota': 'Prova Discursiva'}, inplace=True)
+# df_discursiva.to_csv(os.getcwd() + '\\input-files\\CSV_Discursiva.csv')
 
 
-# Cria o CSV_ProvaObjetiva
-df_objetiva = pd.merge(df_basico, df_especifico, on='Aluno', how='outer')
-df_objetiva = pd.merge(df_objetiva, df_discursiva, on='Aluno', how='outer')
-df_objetiva.to_csv(os.getcwd() + '\\input-files\\CSV_Objetiva.csv')
+# Cria o CSV_NotasFinais
+df_nota_final = pd.merge(df_basico, df_especifico, on='Aluno', how='outer')
+df_nota_final = pd.merge(df_nota_final, df_discursiva, on='Aluno', how='outer')
+df_nota_final['Prova Objetiva (Geral + Específica)'] = df_nota_final.iloc[:, 6:8].sum(axis=1).round(2)
+df_nota_final['Nota Final'] = df_nota_final.iloc[:, 8:10].sum(axis=1).round(2)
+df_nota_final = df_nota_final.sort_values(by='Prova Objetiva Específica', ascending=False)
+df_nota_final = df_nota_final.drop_duplicates(subset='Aluno', keep='first')
+df_nota_final = df_nota_final.fillna(0)
+df_nota_final = df_nota_final.sort_values(by='Aluno', ascending=True)
+df_nota_final.reset_index(drop=True, inplace=True)
+df_nota_final.to_csv(os.getcwd() + '\\input-files\\CSV_NotasFinais.csv')
+
+# Limpa a memória RAM e mantém só o df_nota_final
+del df_basico, df_especifico, df_discursiva
