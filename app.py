@@ -6,6 +6,7 @@ import rotinasAuxiliares
 import base64
 import io
 import os
+import webbrowser
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -175,6 +176,32 @@ def copiar_arquivos(contents, filename, input_files_folder):
 # Callbacks ------------------------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------------------------
 
+# Adicionar Linhas na tabela -------------------------------------------------------------------------------------------
+@app.callback(
+    Output('editable-table', 'data'),
+    Input('add-row-button', 'n_clicks'),
+    Input('editable-table', 'data_previous'),
+    State('editable-table', 'data'),
+    prevent_initial_call=True
+)
+def update_table(n_clicks, data_previous, current_data):
+    ctx = dash.callback_context
+    if not ctx.triggered:
+        raise dash.exceptions.PreventUpdate
+
+    trigger_id = ctx.triggered[0]['prop_id'].split('.')[0]
+
+    if trigger_id == 'add-row-button':
+        if current_data:
+            current_data.append({key: '' for key in current_data[0]})
+        else:
+            current_data = [{'Column 1': '', 'Column 2': ''}]
+    elif trigger_id == 'editable-table':
+        if data_previous and len(data_previous) > len(current_data):
+            current_data = data_previous
+
+    return current_data
+
 # Salvar Matérias-------------------------------------------------------------------------------------------------------
 @app.callback(
         Output('salvar-materias', 'data'),
@@ -208,5 +235,12 @@ def update_output(contents, filename):
 
 # ----------------------------------------------------------------------------------------------------------------------
 # app.run --------------------------------------------------------------------------------------------------------------
+url = "http://127.0.0.1:8050/"
+chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe"  # Path to your Chrome executable
+
+webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(chrome_path))
+webbrowser.get('chrome').open(url)
+
 if __name__ == '__main__':
     app.run(debug = True)
+
