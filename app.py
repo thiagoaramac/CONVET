@@ -2,10 +2,10 @@ import dash
 from dash import dcc, html, Input, Output, State, callback, dash_table
 import polars
 import pandas as pd
-import rotinasAuxiliares
 import base64
 import io
 import os
+import rotinasAuxiliares
 import ranking
 
 
