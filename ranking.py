@@ -22,7 +22,20 @@ df_basico = df_basico.drop(['Nome', 'Sobrenome'], axis=1)
 df_basico = df_basico.replace('-', '0,00', regex=True)
 df_basico = df_basico.replace(',', '.', regex=True)
 df_basico = df_basico.apply(pd.to_numeric, errors='ignore')
+df_basico = df_basico[['Aluno'] + [col for col in df_basico.columns if col != 'Aluno']]
 df_basico.reset_index(drop=True, inplace=True)
+
+# Lê as matérias e cria colunas com as somas de cada matéria ---
+df_materias = pd.read_csv(os.getcwd() + '\\materias.csv')
+for index, row in df_materias.iterrows():
+    materia_atual = row['C1']
+    if not pd.isna(materia_atual):
+        coluna_inicial = int(row['C4'])
+        coluna_final = int(row['C5']) + 1
+        df_basico[materia_atual] = df_basico.iloc[:, coluna_inicial:coluna_final].sum(axis=1).round(2)
+df_basico = df_basico.drop(df_basico.columns[1:51], axis=1)
+# --------------------------------------------------------------
+
 df_basico.to_csv(os.getcwd() + '\\input-files\\CSV_Basico.csv')
 
 # Gera o CSV_Especifico ------------------------------------------------------------------------------------------------
@@ -38,6 +51,7 @@ df_especifico = df_especifico.drop(['Nome', 'Sobrenome'], axis=1)
 df_especifico = df_especifico.replace('-', '0,00', regex=True)
 df_especifico = df_especifico.replace(',', '.', regex=True)
 df_especifico = df_especifico.apply(pd.to_numeric, errors='ignore')
+df_especifico = df_especifico[['Aluno'] + [col for col in df_especifico.columns if col != 'Aluno']]
 df_especifico.reset_index(drop=True, inplace=True)
 df_especifico.to_csv(os.getcwd() + '\\input-files\\CSV_Especifico.csv')
 
@@ -52,6 +66,11 @@ df_discursiva.pop('Última modificação (nota)')
 df_discursiva.pop('Comentários de feedback')
 df_discursiva = df_discursiva.dropna(subset=['Nota'])
 df_discursiva.rename(columns={'Nome completo': 'Aluno'}, inplace=True)
+df_discursiva['Aluno'] = (df_discursiva['Aluno']).str.title()
+df_discursiva = df_discursiva.replace(',', '.', regex=True)
+df_discursiva = df_discursiva.apply(pd.to_numeric, errors='ignore')
+df_discursiva = df_discursiva.loc[df_discursiva.groupby('Aluno')['Nota'].idxmax()]
 df_discursiva.reset_index(drop=True, inplace=True)
 df_discursiva.to_csv(os.getcwd() + '\\input-files\\CSV_Discursiva.csv')
+
 
