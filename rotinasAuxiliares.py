@@ -1,5 +1,9 @@
 import os
 import polars
+import base64
+import io
+import pandas as pd
+
 
 def limpar_diretorio(caminho):
     files = os.listdir(caminho)
@@ -16,3 +20,5 @@ def criar_checkboxes(disciplinas):
 
     checklist_options = [{'label': label, 'value': value} for label, value in checklist_options1]
     return checklist_options, checklist_values
+
+

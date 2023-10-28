@@ -1,6 +1,6 @@
-Disciplina,Codigo,Quantidade de Questões
-Língua Portuguesa,M1,
-Noções de Direito Administrativo e Constitucional,M2,
-Noções de Raciocínio Lógico e Matemático,M3,
-Noções de Informática,M4,
-Disciplinas do Eixo Transversal,M5,
+Disciplina,Codigo, Quantidade de Questões,Questão Inicial,Questão Final
+Língua Portuguesa,M1,10,1,10
+Noções de Direito Administrativo e Constitucional,M2,10,11,20
+Noções de Raciocínio Lógico e Matemático,M3,10,21,30
+Noções de Informática,M4,5,31,35
+Disciplinas do Eixo Transversal,M5,15,36,50

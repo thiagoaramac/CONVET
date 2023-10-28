@@ -31,6 +31,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\materias.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\output-files\ArquivosRanking_Completo.csv">
           <value>
             <Attribute>
