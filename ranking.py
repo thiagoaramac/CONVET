@@ -79,6 +79,7 @@ df_discursiva = df_discursiva.replace(',', '.', regex=True)
 df_discursiva = df_discursiva.apply(pd.to_numeric, errors='ignore')
 df_discursiva = df_discursiva.loc[df_discursiva.groupby('Aluno')['Nota'].idxmax()]
 df_discursiva.reset_index(drop=True, inplace=True)
+df_discursiva.rename(columns={'Nota': 'Discursiva'}, inplace=True)
 df_discursiva.to_csv(os.getcwd() + '\\input-files\\CSV_Discursiva.csv')
 
 
