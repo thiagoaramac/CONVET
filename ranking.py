@@ -38,6 +38,7 @@ df_basico = df_basico.drop(df_basico.columns[1:51], axis=1)
 
 df_basico.to_csv(os.getcwd() + '\\input-files\\CSV_Basico.csv')
 
+
 # Gera o CSV_Especifico ------------------------------------------------------------------------------------------------
 df_especifico = pd.read_csv(os.getcwd() + '\\input-files\\' + input_especifico)
 df_especifico.pop('Estado')
@@ -52,8 +53,15 @@ df_especifico = df_especifico.replace('-', '0,00', regex=True)
 df_especifico = df_especifico.replace(',', '.', regex=True)
 df_especifico = df_especifico.apply(pd.to_numeric, errors='ignore')
 df_especifico = df_especifico[['Aluno'] + [col for col in df_especifico.columns if col != 'Aluno']]
+
+# Cria a coluna com a soma de todas as questões ----------
+df_especifico['Específicas'] = df_especifico.iloc[:, 1:].sum(axis=1)
+df_especifico = df_especifico.iloc[:, [0, -1]]
+# --------------------------------------------------------
+
 df_especifico.reset_index(drop=True, inplace=True)
 df_especifico.to_csv(os.getcwd() + '\\input-files\\CSV_Especifico.csv')
+
 
 # Gera o CSV_Discursiva ------------------------------------------------------------------------------------------------
 df_discursiva = pd.read_csv(os.getcwd() + '\\input-files\\' + input_discursiva)
