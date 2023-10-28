@@ -97,3 +97,5 @@ df_nota_final.to_csv(os.getcwd() + '\\input-files\\CSV_NotasFinais.csv')
 
 # Limpa a memória RAM e mantém só o df_nota_final
 del df_basico, df_especifico, df_discursiva
+
+# Commit
