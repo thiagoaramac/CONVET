@@ -227,7 +227,6 @@ def update_output(contents, filename):
     input_files_folder = os.getcwd() + '\\input-files\\'
     output_files_folder = os.getcwd() + '\\output-files\\'
     rotinasAuxiliares.limpar_diretorio(input_files_folder)
-    contador = 0
 
     if contents is not None:
         children = [copiar_arquivos(c, n, input_files_folder) for c, n in zip(contents, filename)]
