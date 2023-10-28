@@ -108,8 +108,17 @@ def rankear_alunos():
 
     df_rank = pd.read_csv(os.getcwd() + '\\input-files\\' + input_ranking)
 
-    print(df_rank)
+    notas = df_rank.columns[2:].tolist()
+
+    for nota in notas:
+        df_rank = df_rank.sort_values(by = [nota], ascending = False)
+        df_rank['Ranking ' + nota] = df_rank[nota].rank(ascending=False, method='dense').astype(int)
+        df_rank = df_rank.sort_index()
+
+    df_rank = df_rank.sort_values(by = 'Ranking Nota Final', ascending = True)
+    df_rank.pop('Unnamed: 0')
+    df_rank.reset_index(drop = True, inplace = True)
+    df_rank.to_csv(os.getcwd() + '\\input-files\\CSV_Ranking.csv')
 
 
-compilar_notas()
 rankear_alunos()

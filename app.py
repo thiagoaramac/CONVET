@@ -6,6 +6,7 @@ import rotinasAuxiliares
 import base64
 import io
 import os
+import ranking
 import webbrowser
 
 
@@ -225,8 +226,11 @@ def update_output(contents, filename):
     contador = 0
 
     if contents is not None:
-        children = [
-            copiar_arquivos(c, n, input_files_folder) for c, n in zip(contents, filename)]
+        children = [copiar_arquivos(c, n, input_files_folder) for c, n in zip(contents, filename)]
+        try:
+            ranking.compilar_notas()
+        except:
+            pass
         return children
 
 

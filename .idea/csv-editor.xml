@@ -59,6 +59,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\input-files\CSV_Ranking.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\input-files\Notas-SIM-POSTE AQUI SUA DISCURSIVA!!!-6486.csv">
           <value>
             <Attribute>
