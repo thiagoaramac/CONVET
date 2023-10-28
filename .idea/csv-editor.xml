@@ -24,7 +24,42 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="\disciplinas.csv">
+        <entry key="\input-files\CSV_Basico.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\input-files\CSV_Discursiva.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\input-files\CSV_Especifico.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\input-files\Notas-SIM-POSTE AQUI SUA DISCURSIVA!!!-6486.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\input-files\SIM-POSTE AQUI SEU GABARITO - CONHECIMENTOS BÁSICOS-notas.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\input-files\SIM-POSTE AQUI SEU GABARITO - CONHECIMENTOS ESPECÍFICOS-notas.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />

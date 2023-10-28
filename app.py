@@ -11,9 +11,6 @@ import webbrowser
 
 # ----------------------------------------------------------------------------------------------------------------------
 # Lê o arquivo CSV com as disciplinas deste simulado -------------------------------------------------------------------
-disciplinas = polars.scan_csv('disciplinas.csv').collect()
-checklist_options, checklist_values = rotinasAuxiliares.criar_checkboxes(disciplinas)
-
 initial_data = pd.DataFrame({
     'C1': ['Língua Portuguesa',
            'Noções de Direito Administrativo e Constitucional',
@@ -235,11 +232,11 @@ def update_output(contents, filename):
 
 # ----------------------------------------------------------------------------------------------------------------------
 # app.run --------------------------------------------------------------------------------------------------------------
-url = "http://127.0.0.1:8050/"
-chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe"  # Path to your Chrome executable
+#url = "http://127.0.0.1:8050/"
+#chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe"  # Path to your Chrome executable
 
-webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(chrome_path))
-webbrowser.get('chrome').open(url)
+#webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(chrome_path))
+#webbrowser.get('chrome').open(url)
 
 if __name__ == '__main__':
     app.run(debug = True)
