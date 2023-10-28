@@ -7,7 +7,6 @@ import base64
 import io
 import os
 import ranking
-import webbrowser
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -132,6 +131,9 @@ app.layout = html.Div([
     # Div onde vão aparecer os nomes dos arquivos ----------------------------------------------------------------------
     html.Div(id = 'output-data-upload'),
 
+    # Download do arquivo final ----------------------------------------------------------------------------------------
+    # dcc.Download(id="download-files"),
+
 ])
 
 
@@ -214,7 +216,8 @@ def save_table_data(n_clicks, table_data):
 
 
 # Atualizar a página após ler CSV --------------------------------------------------------------------------------------
-@callback(Output('output-data-upload', 'children'),
+@callback(
+          Output('output-data-upload', 'children'),
           Input('upload-data', 'contents'),
           State('upload-data', 'filename'),
           )
@@ -229,6 +232,8 @@ def update_output(contents, filename):
         children = [copiar_arquivos(c, n, input_files_folder) for c, n in zip(contents, filename)]
         try:
             ranking.compilar_notas()
+            ranking.rankear_alunos()
+            arquivo = os.getcwd() + '\\input-files\\CSV_Ranking.csv'
         except:
             pass
         return children
@@ -236,12 +241,6 @@ def update_output(contents, filename):
 
 # ----------------------------------------------------------------------------------------------------------------------
 # app.run --------------------------------------------------------------------------------------------------------------
-#url = "http://127.0.0.1:8050/"
-#chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe"  # Path to your Chrome executable
-
-#webbrowser.register('chrome', None, webbrowser.BackgroundBrowser(chrome_path))
-#webbrowser.get('chrome').open(url)
-
 if __name__ == '__main__':
     app.run(debug = True)
 

@@ -120,5 +120,3 @@ def rankear_alunos():
     df_rank.reset_index(drop = True, inplace = True)
     df_rank.to_csv(os.getcwd() + '\\input-files\\CSV_Ranking.csv')
 
-
-rankear_alunos()
