@@ -82,3 +82,7 @@ df_discursiva.reset_index(drop=True, inplace=True)
 df_discursiva.to_csv(os.getcwd() + '\\input-files\\CSV_Discursiva.csv')
 
 
+# Cria o CSV_ProvaObjetiva
+df_objetiva = pd.merge(df_basico, df_especifico, on='Aluno', how='outer')
+df_objetiva = pd.merge(df_objetiva, df_discursiva, on='Aluno', how='outer')
+df_objetiva.to_csv(os.getcwd() + '\\input-files\\CSV_Objetiva.csv')
