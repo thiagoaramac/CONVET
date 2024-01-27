@@ -3,21 +3,14 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
-        <entry key="C:\Users\thiag\Downloads\Notas-SIM-POSTE AQUI SUA DISCURSIVA!!!-6486.csv">
+        <entry key="\input-files\CSV_NotasFinais.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
             </Attribute>
           </value>
         </entry>
-        <entry key="C:\Users\thiag\Downloads\SIM-POSTE AQUI SEU GABARITO - CONHECIMENTOS BÁSICOS-notas.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="C:\Users\thiag\Downloads\SIM-POSTE AQUI SEU GABARITO - CONHECIMENTOS ESPECÍFICOS-notas.csv">
+        <entry key="\input-files\SIM-POSTE AQUI SEU GABARITO - CONHECIMENTOS BÁSICOS-notas (10).csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
@@ -25,13 +18,6 @@
           </value>
         </entry>
         <entry key="\materias.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\output-files\ArquivosRanking_Completo.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />

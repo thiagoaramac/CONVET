@@ -231,9 +231,23 @@ def update_output(contents, filename):
     if contents is not None:
         children = [copiar_arquivos(c, n, input_files_folder) for c, n in zip(contents, filename)]
         try:
+            print('------------------------------------------------')
+            print("Compilando notas....")
             ranking.compilar_notas()
+            print('------------------------------------------------')
+            print("Rankeando alunos....")
             ranking.rankear_alunos()
-            arquivo = os.getcwd() + '\\input-files\\CSV_Ranking.csv'
+            print('------------------------------------------------')
+            print("Operação Finalizada com Sucesso!")
+            print('------------------------------------------------')
+            print("Arrumando planilha Excel no padrão Amanda....")
+            ranking.arrumar_excel()
+            # print("Colocando a macro de copia na planilha Excel....")
+            # ranking.colocar_macro()
+            print("Ajustando colunas da planilha Excel....")
+            ranking.formatar_excel()
+            print("Planilha arrumada com Sucesso!")
+            print('------------------------------------------------')
         except:
             pass
         return children
