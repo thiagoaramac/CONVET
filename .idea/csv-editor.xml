@@ -3,6 +3,13 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
+        <entry key="C:\Users\thiag\Downloads\enotas-arquivo-exemplo (14) (1).csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\input-files\CSV_NotasFinais.csv">
           <value>
             <Attribute>
@@ -10,7 +17,7 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="\input-files\SIM-POSTE AQUI SEU GABARITO - CONHECIMENTOS BÁSICOS-notas (10).csv">
+        <entry key="\input-files\CSV_Ranking.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />

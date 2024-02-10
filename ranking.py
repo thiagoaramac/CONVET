@@ -26,12 +26,12 @@ def compilar_notas():
     df_basico.pop('Avaliar/10,00')
     df_basico = df_basico[~df_basico['Sobrenome'].str.startswith('Média geral')]
     df_basico['Aluno'] = (df_basico['Nome'] + ' ' + df_basico['Sobrenome']).str.title()
-    df_basico = df_basico.drop(['Nome', 'Sobrenome'], axis=1)
-    df_basico = df_basico.replace('-', '0,00', regex=True)
-    df_basico = df_basico.replace(',', '.', regex=True)
-    df_basico = df_basico.apply(pd.to_numeric, errors='ignore')
+    df_basico = df_basico.drop(['Nome', 'Sobrenome'], axis = 1)
+    df_basico = df_basico.replace('-', '0,00', regex = True)
+    df_basico = df_basico.replace(',', '.', regex = True)
+    df_basico = df_basico.apply(pd.to_numeric, errors = 'ignore')
     df_basico = df_basico[['Aluno'] + [col for col in df_basico.columns if col != 'Aluno']]
-    df_basico.reset_index(drop=True, inplace=True)
+    df_basico.reset_index(drop = True, inplace = True)
 
     # Lê as matérias e cria colunas com as somas de cada matéria -------------------------------------------------------
     df_materias = pd.read_csv(os.getcwd() + '\\materias.csv')
@@ -40,16 +40,15 @@ def compilar_notas():
         if not pd.isna(materia_atual):
             coluna_inicial = int(row['C4'])
             coluna_final = int(row['C5']) + 1
-            df_basico[materia_atual] = df_basico.iloc[:, coluna_inicial:coluna_final].sum(axis=1).round(2)
-    df_basico = df_basico.drop(df_basico.columns[1:51], axis=1)
+            df_basico[materia_atual] = df_basico.iloc[:, coluna_inicial:coluna_final].sum(axis = 1).round(2)
+    df_basico = df_basico.drop(df_basico.columns[1:51], axis = 1)
     # ------------------------------------------------------------------------------------------------------------------
 
     # Cria a soma total da prova objetiva ------------------------------------------------------------------------------
-    df_basico['Prova Objetiva Geral'] = df_basico.iloc[:, 1:].sum(axis=1).round(2)
+    df_basico['Prova Objetiva Geral'] = df_basico.iloc[:, 1:].sum(axis = 1).round(2)
 
     # ------------------------------------------------------------------------------------------------------------------
     # df_basico.to_csv(os.getcwd() + '\\input-files\\CSV_Basico.csv')
-
 
     # Gera o CSV_Especifico --------------------------------------------------------------------------------------------
     df_especifico = pd.read_csv(os.getcwd() + '\\input-files\\' + input_especifico)
@@ -60,18 +59,17 @@ def compilar_notas():
     df_especifico.pop('Avaliar/10,00')
     df_especifico = df_especifico[~df_especifico['Sobrenome'].str.startswith('Média geral')]
     df_especifico['Aluno'] = (df_especifico['Nome'] + ' ' + df_especifico['Sobrenome']).str.title()
-    df_especifico = df_especifico.drop(['Nome', 'Sobrenome'], axis=1)
-    df_especifico = df_especifico.replace('-', '0,00', regex=True)
-    df_especifico = df_especifico.replace(',', '.', regex=True)
-    df_especifico = df_especifico.apply(pd.to_numeric, errors='ignore')
+    df_especifico = df_especifico.drop(['Nome', 'Sobrenome'], axis = 1)
+    df_especifico = df_especifico.replace('-', '0,00', regex = True)
+    df_especifico = df_especifico.replace(',', '.', regex = True)
+    df_especifico = df_especifico.apply(pd.to_numeric, errors = 'ignore')
     df_especifico = df_especifico[['Aluno'] + [col for col in df_especifico.columns if col != 'Aluno']]
     # Cria a coluna com a soma de todas as questões ----------
-    df_especifico['Prova Objetiva Específica'] = df_especifico.iloc[:, 1:].sum(axis=1)
+    df_especifico['Prova Objetiva Específica'] = df_especifico.iloc[:, 1:].sum(axis = 1)
     df_especifico = df_especifico.iloc[:, [0, -1]]
     # --------------------------------------------------------
-    df_especifico.reset_index(drop=True, inplace=True)
+    df_especifico.reset_index(drop = True, inplace = True)
     # df_especifico.to_csv(os.getcwd() + '\\input-files\\CSV_Especifico.csv')
-
 
     # Gera o CSV_Discursiva ------------------------------------------------------------------------------------------------
     df_discursiva = pd.read_csv(os.getcwd() + '\\input-files\\' + input_discursiva)
@@ -82,27 +80,26 @@ def compilar_notas():
     df_discursiva.pop('Última modificação (envio)')
     df_discursiva.pop('Última modificação (nota)')
     df_discursiva.pop('Comentários de feedback')
-    df_discursiva = df_discursiva.dropna(subset=['Nota'])
-    df_discursiva.rename(columns={'Nome completo': 'Aluno'}, inplace=True)
+    df_discursiva = df_discursiva.dropna(subset = ['Nota'])
+    df_discursiva.rename(columns = {'Nome completo': 'Aluno'}, inplace = True)
     df_discursiva['Aluno'] = (df_discursiva['Aluno']).str.title()
-    df_discursiva = df_discursiva.replace(',', '.', regex=True)
-    df_discursiva = df_discursiva.apply(pd.to_numeric, errors='ignore')
+    df_discursiva = df_discursiva.replace(',', '.', regex = True)
+    df_discursiva = df_discursiva.apply(pd.to_numeric, errors = 'ignore')
     df_discursiva = df_discursiva.loc[df_discursiva.groupby('Aluno')['Nota'].idxmax()]
-    df_discursiva.reset_index(drop=True, inplace=True)
-    df_discursiva.rename(columns={'Nota': 'Prova Discursiva'}, inplace=True)
+    df_discursiva.reset_index(drop = True, inplace = True)
+    df_discursiva.rename(columns = {'Nota': 'Prova Discursiva'}, inplace = True)
     # df_discursiva.to_csv(os.getcwd() + '\\input-files\\CSV_Discursiva.csv')
 
-
     # Cria o CSV_NotasFinais
-    df_nota_final = pd.merge(df_basico, df_especifico, on='Aluno', how='outer')
-    df_nota_final = pd.merge(df_nota_final, df_discursiva, on='Aluno', how='outer')
-    df_nota_final['Prova Objetiva (Geral + Específica)'] = df_nota_final.iloc[:, 6:8].sum(axis=1).round(2)
-    df_nota_final['Nota Final'] = df_nota_final.iloc[:, 8:10].sum(axis=1).round(2)
-    df_nota_final = df_nota_final.sort_values(by='Prova Objetiva Específica', ascending=False)
-    df_nota_final = df_nota_final.drop_duplicates(subset='Aluno', keep='first')
+    df_nota_final = pd.merge(df_basico, df_especifico, on = 'Aluno', how = 'outer')
+    df_nota_final = pd.merge(df_nota_final, df_discursiva, on = 'Aluno', how = 'outer')
+    df_nota_final['Prova Objetiva (Geral + Específica)'] = df_nota_final.iloc[:, 6:8].sum(axis = 1).round(2)
+    df_nota_final['Nota Final'] = df_nota_final.iloc[:, 8:10].sum(axis = 1).round(2)
+    df_nota_final = df_nota_final.sort_values(by = 'Prova Objetiva Específica', ascending = False)
+    df_nota_final = df_nota_final.drop_duplicates(subset = 'Aluno', keep = 'first')
     df_nota_final = df_nota_final.fillna(0)
-    df_nota_final = df_nota_final.sort_values(by='Aluno', ascending=True)
-    df_nota_final.reset_index(drop=True, inplace=True)
+    df_nota_final = df_nota_final.sort_values(by = 'Aluno', ascending = True)
+    df_nota_final.reset_index(drop = True, inplace = True)
     df_nota_final.to_csv(os.getcwd() + '\\input-files\\CSV_NotasFinais.csv')
     print("Arquivo CSV_NotasFinais.csv gerado com sucesso!")
 
@@ -121,15 +118,58 @@ def rankear_alunos():
     notas = df_rank.columns[2:].tolist()
     for nota in notas:
         df_rank = df_rank.sort_values(by = [nota], ascending = False)
-        df_rank['Ranking ' + nota] = df_rank[nota].rank(ascending=False, method='dense').astype(int)
+        df_rank['Ranking ' + nota] = df_rank[nota].rank(ascending = False, method = 'dense').astype(int)
         df_rank = df_rank.sort_index()
+
+    df_rank['Ranking Língua Portuguesa'] = (
+        df_rank['Ranking Língua Portuguesa'].astype(str))
+    df_rank['Ranking Noções de Direito Administrativo e Constitucional'] = (
+        df_rank['Ranking Noções de Direito Administrativo e Constitucional'].astype(str))
+    df_rank['Ranking Noções de Raciocínio Lógico e Matemático'] = (
+        df_rank['Ranking Noções de Raciocínio Lógico e Matemático'].astype(str))
+    df_rank['Ranking Noções de Informática'] = (
+        df_rank['Ranking Noções de Informática'].astype(str))
+    df_rank['Ranking Disciplinas do Eixo Transversal'] = (
+        df_rank['Ranking Disciplinas do Eixo Transversal'].astype(str))
+    df_rank['Ranking Prova Objetiva Geral'] = (
+        df_rank['Ranking Prova Objetiva Geral'].astype(str))
+    df_rank['Ranking Prova Objetiva Específica'] = (
+        df_rank['Ranking Prova Objetiva Específica'].astype(str))
+    df_rank['Ranking Prova Discursiva'] = (
+        df_rank['Ranking Prova Discursiva'].astype(str))
+    df_rank['Ranking Prova Objetiva (Geral + Específica)'] = (
+        df_rank['Ranking Prova Objetiva (Geral + Específica)'].astype(str))
+    df_rank['Ranking Nota Final'] = (
+        df_rank['Ranking Nota Final'].astype(str))
+
+    df_rank.loc[df_rank['Língua Portuguesa'] == 0,
+    'Ranking Língua Portuguesa'] = '-'
+    df_rank.loc[df_rank['Noções de Direito Administrativo e Constitucional'] == 0,
+    'Ranking Noções de Direito Administrativo e Constitucional'] = '-'
+    df_rank.loc[df_rank['Noções de Raciocínio Lógico e Matemático'] == 0,
+    'Ranking Noções de Raciocínio Lógico e Matemático'] = '-'
+    df_rank.loc[df_rank['Noções de Informática'] == 0,
+    'Ranking Noções de Informática'] = '-'
+    df_rank.loc[df_rank['Disciplinas do Eixo Transversal'] == 0,
+    'Ranking Disciplinas do Eixo Transversal'] = '-'
+    df_rank.loc[df_rank['Prova Objetiva Geral'] == 0,
+    'Ranking Prova Objetiva Geral'] = '-'
+    df_rank.loc[df_rank['Prova Objetiva Específica'] == 0,
+    'Ranking Prova Objetiva Específica'] = '-'
+    df_rank.loc[df_rank['Prova Discursiva'] == 0,
+    'Ranking Prova Discursiva'] = '-'
+    df_rank.loc[df_rank['Prova Objetiva (Geral + Específica)'] == 0,
+    'Ranking Prova Objetiva (Geral + Específica)'] = '-'
+    df_rank.loc[df_rank['Nota Final'] == 0,
+    'Ranking Nota Final'] = '-'
 
     df_rank['Texto1'] = "Oi, " + df_rank['Aluno'].str.split().str[0] + "! Tudo bem?\n"
     df_rank['Texto2'] = "Sua Nota Final (objetiva + discursiva): " + df_rank['Nota Final'].astype(str) + "/30.00\n"
     df_rank['Texto3'] = ("Seu ranking da prova discursiva: " + df_rank['Ranking Prova Discursiva'].astype(str) +
                          "ª nota mais alta\n")
-    df_rank['Texto4'] = ("Seu ranking da prova Objetiva Básica: " + df_rank['Ranking Prova Objetiva Geral'].astype(str) +
-                         "ª nota mais alta\n")
+    df_rank['Texto4'] = (
+            "Seu ranking da prova Objetiva Básica: " + df_rank['Ranking Prova Objetiva Geral'].astype(str) +
+            "ª nota mais alta\n")
     df_rank['Texto5'] = ("Seu ranking da prova Objetiva Específica: " + df_rank['Ranking Prova Objetiva Específica'].
                          astype(str) + "ª nota mais alta\n")
     df_rank['Texto6'] = ("Seu ranking geral: " + df_rank['Ranking Nota Final'].astype(str) + "ª nota mais alta\n\n")
@@ -154,13 +194,16 @@ def rankear_alunos():
         ['Texto1', 'Texto2', 'Texto3', 'Texto4', 'Texto5', 'Texto6', 'Texto7', 'Texto8', 'Texto9', 'Texto10', 'Texto11',
          'Texto12', 'Texto13', 'Texto14']].apply(lambda x: '\n'.join(x), axis = 1)
     df_rank = df_rank.drop(
-        columns = ['Texto1', 'Texto2', 'Texto3', 'Texto4', 'Texto5', 'Texto6', 'Texto7', 'Texto8', 'Texto9', 'Texto10',
-                   'Texto11', 'Texto12', 'Texto13', 'Texto14'])
+            columns = ['Texto1', 'Texto2', 'Texto3', 'Texto4', 'Texto5', 'Texto6', 'Texto7', 'Texto8', 'Texto9',
+                       'Texto10',
+                       'Texto11', 'Texto12', 'Texto13', 'Texto14'])
 
     df_rank['Feedback'] = df_rank['Feedback'].apply(
-        lambda x: '\n'.join(line for line in x.splitlines() if line.strip()))
+            lambda x: '\n'.join(line for line in x.splitlines() if line.strip()))
     df_rank['Feedback'] = df_rank['Feedback'].apply(lambda x: '\n'.join(
             line if line != 'Nas disciplinas:' else '\n' + line for line in x.splitlines() if line.strip()))
+
+    df_rank['Feedback'] = df_rank['Feedback'].str.replace(' -ª nota mais alta', ' -')
 
     df_rank.to_csv(os.getcwd() + '\\input-files\\CSV_Ranking.csv')
 
@@ -168,10 +211,88 @@ def rankear_alunos():
     df_rank.pop('Unnamed: 0')
 
     df_rank.reset_index(drop = True, inplace = True)
+
     df_rank.to_csv(os.getcwd() + '\\input-files\\CSV_Ranking.csv')
     print("Arquivo CSV_Ranking.csv gerado com sucesso!")
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------------------------------
+    email_feedback = []
+    for i in range(len(df_rank)):
+        var_aluno = df_rank.iat[i, 0].split()[0]
+        var1 = df_rank.iat[i, 1].astype(str)  # Nota Lingua Portuguesa
+        var2 = df_rank.iat[i, 2].astype(str)  # Nota Noções de Direito Administrativo e Constitucional
+        var3 = df_rank.iat[i, 3].astype(str)  # Nota Noções de Raciocínio Lógico e Matemático
+        var4 = df_rank.iat[i, 4].astype(str)  # Nota Noções de Informática
+        var5 = df_rank.iat[i, 5].astype(str)  # Nota Disciplinas do Eixo Transversal
+        var6 = df_rank.iat[i, 6].astype(str)  # Nota Prova Objetiva Geral
+        var7 = df_rank.iat[i, 7].astype(str)  # Nota Prova Objetiva Específica
+        var8 = df_rank.iat[i, 8].astype(str)  # Nota Prova Discursiva
+        var9 = df_rank.iat[i, 9].astype(str)  # Nota Prova Objetiva (Geral + Específica)
+        var10 = df_rank.iat[i, 10].astype(str)  # Nota Final
+
+        var11 = df_rank.iat[i, 11]  # Ranking Lingua Portuguesa
+        var12 = df_rank.iat[i, 12]  # Ranking Noções de Direito Administrativo e Constitucional
+        var13 = df_rank.iat[i, 13]  # Ranking Noções de Raciocínio Lógico e Matemático
+        var14 = df_rank.iat[i, 14]  # Ranking Noções de Informática
+        var15 = df_rank.iat[i, 15]  # Ranking Disciplinas do Eixo Transversal
+        var16 = df_rank.iat[i, 16]  # Ranking Prova Objetiva Geral
+        var17 = df_rank.iat[i, 17]  # Ranking Prova Objetiva Específica
+        var18 = df_rank.iat[i, 18]  # Ranking Prova Discursiva
+        var19 = df_rank.iat[i, 19]  # Ranking Prova Objetiva (Geral + Específica)
+        var20 = df_rank.iat[i, 20]  # Ranking Final
+
+        var21 = "1"  # Média conhecimentos básicos
+        var22 = "1"  # Média conhecimentos específicos
+        var23 = "1"  # Média discursiva
+        html_string1 = f"<p>Oi, {var_aluno}! Tudo bem? &#128516;</p>"
+        html_string2 = "<p><strong>Seu feedback na prova como um todo:</strong><br/>"
+        html_string3 = f"Sua Nota Final (objetiva + discursiva): <strong>{var10}/30.00</strong><br/>"
+        html_string4 = f"Seu ranking da prova discursiva: <strong>{var18}ª</strong> nota mais alta<br/>"
+        html_string5 = f"Seu ranking da prova Objetiva Básica: <strong>{var16}ª</strong> nota mais alta<br/>"
+        html_string6 = f"Seu ranking da prova Objetiva Específica: <strong>{var17}ª</strong> nota mais alta<br/>"
+        html_string7 = f"Seu ranking geral: <strong>{var20}ª</strong> nota mais alta</p>"
+        html_string8 = "<p><strong>Seu feedback em cada disciplina:</strong><br/>"
+        html_string9 = f"Língua Portuguesa: <strong>{var11}ª</strong> nota mais alta<br/>"
+        html_string10 = f"Noções de direito administrativo e constitucional: <strong>{var12}ª</strong> nota mais alta<br/>"
+        html_string11 = f"Noções de raciocínio lógico e matemático: <strong>{var13}ª</strong> nota mais alta<br/>"
+        html_string12 = f"Noções de Informática: <strong>{var14}ª</strong> nota mais alta<br/>"
+        html_string13 = f"Disciplinas do Eixo Transversal: <strong>{var15}ª</strong> nota mais alta<br/>"
+        html_string14 = f"<p><strong>Esse simulado teve <u>{str(len(df_rank))}</u> alunos</strong><br/>"
+        html_string15 = f"Média geral(conhecimentos básicos): <strong>{var21}</strong><br/>"
+        html_string16 = f"Média geral(conhecimentos específicos): <strong>{var22}</strong><br/>"
+        html_string17 = f"Média geral(discursiva): <strong>{var23}</strong><br/>"
+        html_string18 = "Continue firme e bons estudos!!</p>"
+        html_string19 = '<br/><p><font color="gray"><b><i><h1 style="font-size:8pt; ">'
+        html_string20 = "Lembrando que esse é um email automático do CONVET!"
+        html_string21 = f'</h1></i></b><i><h1 style="font-size:8pt; ">'
+        html_string22 = "Se você tentar respondê-lo, ninguém vai ver &#128542;"
+        html_string23 = "</h1></i></font></p>"
+        html_string24 = f'<img src="https://www.concursosconvet.com.br/assets/img/logotipo/logotipo.png"  width="100" height="100">'
+
+        html_strings = [html_string1, html_string2, html_string3, html_string4, html_string5,
+                        html_string6, html_string7, html_string8, html_string9, html_string10,
+                        html_string11, html_string12, html_string13, html_string14, html_string15,
+                        html_string16, html_string17, html_string18, html_string19, html_string20,
+                        html_string21, html_string22, html_string23, html_string24]
+
+        html_string = "".join(html_strings)
+        email_feedback.append(html_string)
+
+    df_rank['Email Feedback'] = email_feedback
     try:
-        df_rank.to_excel(os.getcwd() + '\\input-files\\Excel_Ranking.xlsx', index=False)
+        df_feedback = df_rank[['Aluno', 'Email Feedback']].copy()
+        df_feedback.to_excel(os.getcwd() + '\\list-email\\Excel_Email_Feedback.xlsx', index = False)
+        df_rank = df_rank.drop(columns = ['Email Feedback'])
+        print("Arquivo Excel_Email_Feedback.xlsx gerado com sucesso!")
+    except Exception as e:
+        print(f"Aconteceu um erro: {e}")
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------------------------------
+
+    try:
+        df_rank.to_excel(os.getcwd() + '\\input-files\\Excel_Ranking.xlsx', index = False)
         print("Arquivo Excel_Ranking.xlsx gerado com sucesso!")
     except Exception as e:
         print(f"Aconteceu um erro: {e}")
@@ -202,7 +323,7 @@ def arrumar_excel():
         sheet.column_dimensions['V'].width = 64
 
         # 5. Set column 'V' to Wrap Text
-        sheet['V1'].alignment = Alignment(wrap_text=True)
+        sheet['V1'].alignment = Alignment(wrap_text = True)
 
         # 6. Set row 2 to the last one to center text in cells
         # 7. Set row 2 to the last one to center align in cells
@@ -231,7 +352,7 @@ def arrumar_excel():
             for cell in row:
                 cell.alignment = Alignment(wrap_text = True)
 
-        # 13. Put macro
+        # 14. Put macro
         vba_code = ("""
         Option Explicit
 
@@ -363,5 +484,3 @@ def colocar_macro():
     del excel
 
     print(f'Código VBA inserido com sucesso')
-
-
