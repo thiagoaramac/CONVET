@@ -174,7 +174,7 @@ def compilar_notas():
     del df_basico, df_especifico, df_discursiva, df_nota_final
 
 
-def rankear_alunos():
+def rankear_alunos(simulado_num):
     # Dados iniciais ---------------------------------------------------------------------------------------------------
     nota_maxima_basica = 20
     nota_maxima_especifica = 50
@@ -341,7 +341,7 @@ def rankear_alunos():
 
         var24 = round(df_rank['Nota Final'].mean(), 2)  # Média Nota Final
 
-        html_string1 = f"<p>Oi, {var_aluno}! Tudo bem? <br/>Nos feedbacks 30 e 31 anteriores os pesos dos eixos 4 e 5 estavam trocados, portanto estamos enviando o ranking retificado com as alterações. &#128516;</p>"
+        html_string1 = f"<p>Oi, {var_aluno}! Tudo bem? &#128516;</p>"
 
         if len(str(var6)) == 4:
             var6 = str(var6) + '0'
@@ -503,7 +503,7 @@ def rankear_alunos():
     except Exception as e:
         print(e)
 
-    df_email_feedback.to_excel(os.getcwd() + '\\list-email\\Excel_Email_List.xlsx', index = False)
+    df_email_feedback.to_excel(os.getcwd() + f'\\list-email\\Excel_Email_List - Simulado MAPA {simulado_num}.xlsx', index = False)
 
     #try:
     #    df_feedback = df_rank[['Aluno', 'Email Feedback']].copy()
@@ -517,17 +517,17 @@ def rankear_alunos():
     # ------------------------------------------------------------------------------------------------------------------
 
     try:
-        df_rank.to_excel(os.getcwd() + '\\output-files\\Excel_Ranking.xlsx', index = False)
+        df_rank.to_excel(os.getcwd() + f'\\output-files\\Excel_Ranking - Simulado MAPA {simulado_num}.xlsx', index = False)
         print('------------------------------------------------')
-        print("Arquivo Excel_Ranking.xlsx gerado com sucesso!")
+        print(f'Arquivo Excel_Ranking - Simulado {simulado_num}.xlsx gerado com sucesso!')
         print('')
     except Exception as e:
-        print(f"Aconteceu um erro: {e}")
+        print(f'Aconteceu um erro: {e}')
 
 
-def arrumar_excel():
-    input_files_path = os.getcwd() + '\\output-files\\Excel_Ranking.xlsx'
-    output_files_path = os.getcwd() + '\\output-files\\Excel_Ranking.xlsx'
+def arrumar_excel(simulado_num):
+    input_files_path = os.getcwd() + f'\\output-files\\Excel_Ranking - Simulado MAPA {simulado_num}.xlsx'
+    output_files_path = os.getcwd() + f'\\output-files\\Excel_Ranking - Simulado MAPA {simulado_num}.xlsx'
 
     try:
         workbook = openpyxl.load_workbook(input_files_path)
@@ -635,8 +635,8 @@ def arrumar_excel():
         print(f"Aconteceu um erro: {e}")
 
 
-def formatar_excel():
-    input_files_path = os.getcwd() + '\\output-files\\Excel_Ranking.xlsx'
+def formatar_excel(simulado_num):
+    input_files_path = os.getcwd() + f'\\output-files\\Excel_Ranking - Simulado MAPA {simulado_num}.xlsx'
     wb = load_workbook(input_files_path)
     ws = wb['Sheet1']
 
@@ -661,13 +661,13 @@ def formatar_excel():
     print('------------------------------------------------')
     print("Planilha pronta!")
     print('------------------------------------------------')
-    print("Abrindo Excel")
-    app = xw.App(visible = True, add_book = False)
-    wb = app.books.open(input_files_path)
+    #print("Abrindo Excel")
+    #app = xw.App(visible = True, add_book = False)
+    #wb = app.books.open(input_files_path)
 
 
-def colocar_macro():
-    input_files_path = os.getcwd() + '\\output-files\\Excel_Ranking.xlsx'
+def colocar_macro(simulado_num):
+    input_files_path = os.getcwd() + f'\\output-files\\Excel_Ranking - Simulado {simulado_num}.xlsx'
 
     vba_code = ("""
             Option Explicit

@@ -12,3 +12,5 @@ waitress~=2.1.2
 openpyxl~=3.1.2
 google~=3.0.0
 xlwings~=0.30.12
+numpy~=1.26.1
+streamlit~=1.31.1

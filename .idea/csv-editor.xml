@@ -3,21 +3,7 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
-        <entry key="C:\Users\thiag\Downloads\enotas-arquivo-exemplo (14) (1).csv">
-          <value>
-            <Attribute>
-              <option name="separator" value=";" />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\input-files\CSV_NotasFinais.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\input-files\CSV_Ranking.csv">
+        <entry key="\input-files\SIM-POSTE AQUI SEU GABARITO - CONHECIMENTOS ESPECÍFICOS-notas (1).csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
@@ -25,6 +11,41 @@
           </value>
         </entry>
         <entry key="\materias.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\output-files\CSV_Basico.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\output-files\CSV_Discursiva.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\output-files\CSV_Especifico.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\output-files\CSV_NotasFinais.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\output-files\CSV_Ranking.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
